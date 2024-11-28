@@ -1,6 +1,7 @@
 "use strict";
-const { Model, Sequelize } = require("sequelize");
+const { Model, Sequelize, DataTypes } = require("sequelize");
 const sequelize = require("../../config/database");
+const bcrypt = require("bcrypt");
 module.exports = sequelize.define(
   "User",
   {
@@ -8,33 +9,44 @@ module.exports = sequelize.define(
       allowNull: false,
       autoIncrement: true,
       primaryKey: true,
-      type: Sequelize.INTEGER,
+      type: DataTypes.INTEGER,
     },
     role: {
-      type: Sequelize.ENUM("commuter", "operator", "admin"),
+      type: DataTypes.ENUM("commuter", "operator", "admin"),
     },
     firstName: {
-      type: Sequelize.STRING,
+      type: DataTypes.STRING,
     },
     lastName: {
-      type: Sequelize.STRING,
+      type: DataTypes.STRING,
     },
     email: {
-      type: Sequelize.STRING,
+      type: DataTypes.STRING,
     },
     password: {
-      type: Sequelize.STRING,
+      type: DataTypes.STRING,
+    },
+    confirmPassword: {
+      type: DataTypes.VIRTUAL,
+      set(value) {
+        if (value === this.password) {
+          const hashedPassword = bcrypt.hashSync(value, 10);
+          this.setDataValue("password", hashedPassword);
+        } else {
+          throw new Error("Password and confirm password must be same");
+        }
+      },
     },
     createdAt: {
       allowNull: false,
-      type: Sequelize.DATE,
+      type: DataTypes.DATE,
     },
     updatedAt: {
       allowNull: false,
-      type: Sequelize.DATE,
+      type: DataTypes.DATE,
     },
     deletedAt: {
-      type: Sequelize.DATE,
+      type: DataTypes.DATE,
     },
   },
   {
