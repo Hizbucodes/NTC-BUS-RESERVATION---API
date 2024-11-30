@@ -17,4 +17,19 @@ const createRoute = catchAsync(async (req, res, next) => {
   });
 });
 
-module.exports = { createRoute };
+const getAllRoutes = catchAsync(async (req, res, next) => {
+  const result = await route.findAll();
+
+  // if(!result || result.length === 0){
+  //     return res.status(404).json({
+  //         status: 'err'
+  //     })
+  // }
+
+  return res.status(200).json({
+    status: "success",
+    data: result,
+  });
+});
+
+module.exports = { createRoute, getAllRoutes };
