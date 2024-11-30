@@ -21,11 +21,12 @@ const createRoute = catchAsync(async (req, res, next) => {
 const getAllRoutes = catchAsync(async (req, res, next) => {
   const result = await route.findAll();
 
-  // if(!result || result.length === 0){
-  //     return res.status(404).json({
-  //         status: 'err'
-  //     })
-  // }
+  if (!result || result.length === 0) {
+    return res.status(200).json({
+      status: "success",
+      message: "No routes were added",
+    });
+  }
 
   return res.status(200).json({
     status: "success",
@@ -70,4 +71,27 @@ const updateRoute = catchAsync(async (req, res, next) => {
   });
 });
 
-module.exports = { createRoute, getAllRoutes, getRouteById, updateRoute };
+const deleteRoute = catchAsync(async (req, res, next) => {
+  const routeId = req.params.id;
+
+  const result = await route.findByPk(routeId);
+
+  if (!result) {
+    return next(new AppError("Invalid route id", 400));
+  }
+
+  await result.destroy();
+
+  return res.status(200).json({
+    status: "success",
+    message: "Route deleted successfully",
+  });
+});
+
+module.exports = {
+  createRoute,
+  getAllRoutes,
+  getRouteById,
+  updateRoute,
+  deleteRoute,
+};
