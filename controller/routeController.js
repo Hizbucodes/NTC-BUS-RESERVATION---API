@@ -1,4 +1,5 @@
 const route = require("../db/models/route");
+const AppError = require("../utils/appError");
 const catchAsync = require("../utils/catchAsync");
 
 const createRoute = catchAsync(async (req, res, next) => {
@@ -32,4 +33,18 @@ const getAllRoutes = catchAsync(async (req, res, next) => {
   });
 });
 
-module.exports = { createRoute, getAllRoutes };
+const getRouteById = catchAsync(async (req, res, next) => {
+  const routeId = req.params.id;
+  const result = await route.findByPk(routeId);
+
+  if (!result) {
+    return next(new AppError("Invalid route id", 400));
+  }
+
+  return res.status(200).json({
+    status: "success",
+    data: result,
+  });
+});
+
+module.exports = { createRoute, getAllRoutes, getRouteById };
