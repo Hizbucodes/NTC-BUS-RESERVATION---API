@@ -24,6 +24,7 @@ module.exports = sequelize.define(
     },
     destination: {
       type: DataTypes.STRING,
+      allowNull: false,
       validate: {
         notNull: {
           msg: "destination cannot be null",
@@ -35,6 +36,7 @@ module.exports = sequelize.define(
     },
     distance: {
       type: DataTypes.INTEGER,
+      allowNull: false,
       validate: {
         notNull: {
           msg: "distance cannot be null",
@@ -49,6 +51,7 @@ module.exports = sequelize.define(
     },
     duration: {
       type: DataTypes.INTEGER,
+      allowNull: false,
       validate: {
         notNull: {
           msg: "duration cannot be null",

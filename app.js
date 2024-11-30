@@ -1,6 +1,7 @@
 require("dotenv").config({ path: `${process.cwd()}/.env` });
 const express = require("express");
 const authRouter = require("./routes/authRoute");
+const bus_route_Router = require("./routes/bus-routeRoute");
 const catchAsync = require("./utils/catchAsync");
 const AppError = require("./utils/appError");
 const globalErrorHandler = require("./controller/errorController");
@@ -11,6 +12,7 @@ app.use(express.json());
 
 // All routes will be here
 app.use("/api/v1/auth", authRouter);
+app.use("/api/v1/route", bus_route_Router);
 
 app.use(
   "*",
