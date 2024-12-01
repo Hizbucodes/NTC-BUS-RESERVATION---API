@@ -15,7 +15,7 @@ const generateToken = (payload) => {
 const signup = catchAsync(async (req, res, next) => {
   const body = req.body;
 
-  if (!["commuter", "operator"].includes(body.role)) {
+  if (!["commuter", "operator", "admin"].includes(body.role)) {
     throw new AppError("Invalid user role", 400);
   }
 
@@ -105,4 +105,18 @@ const authentication = catchAsync(async (req, res, next) => {
   return next();
 });
 
-module.exports = { signup, signin, authentication };
+const restrictTo = (...userRole) => {
+  const checkPermission = (req, res, next) => {
+    if (!userRole.includes(req.user.role)) {
+      return next(
+        new AppError("You don't have permission to perform this action", 403)
+      );
+    }
+
+    return next();
+  };
+
+  return checkPermission;
+};
+
+module.exports = { signup, signin, authentication, restrictTo };

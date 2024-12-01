@@ -1,4 +1,4 @@
-const { authentication } = require("../controller/authController");
+const { authentication, restrictTo } = require("../controller/authController");
 const {
   createRoute,
   getAllRoutes,
@@ -9,10 +9,10 @@ const {
 
 const router = require("express").Router();
 
-router.route("/").post(authentication, createRoute);
+router.route("/").post(authentication, restrictTo("admin"), createRoute);
 router.route("/getAllRoutes").get(authentication, getAllRoutes);
-router.route("/:id").get(authentication, getRouteById);
-router.route("/:id").patch(authentication, updateRoute);
-router.route("/:id").delete(authentication, deleteRoute);
+router.route("/:id").get(authentication, restrictTo("admin"), getRouteById);
+router.route("/:id").patch(authentication, restrictTo("admin"), updateRoute);
+router.route("/:id").delete(authentication, restrictTo("admin"), deleteRoute);
 
 module.exports = router;
