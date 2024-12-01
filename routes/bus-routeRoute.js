@@ -1,3 +1,4 @@
+const { authentication } = require("../controller/authController");
 const {
   createRoute,
   getAllRoutes,
@@ -8,10 +9,10 @@ const {
 
 const router = require("express").Router();
 
-router.route("/").post(createRoute);
-router.route("/getAllRoutes").get(getAllRoutes);
-router.route("/:id").get(getRouteById);
-router.route("/:id").patch(updateRoute);
-router.route("/:id").delete(deleteRoute);
+router.route("/").post(authentication, createRoute);
+router.route("/getAllRoutes").get(authentication, getAllRoutes);
+router.route("/:id").get(authentication, getRouteById);
+router.route("/:id").patch(authentication, updateRoute);
+router.route("/:id").delete(authentication, deleteRoute);
 
 module.exports = router;
