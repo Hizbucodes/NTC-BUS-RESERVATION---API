@@ -1,7 +1,8 @@
 const { DataTypes } = require("sequelize");
 const sequelize = require("../../config/database");
+const route = require("./route");
 
-module.exports = sequelize.define(
+const bus = sequelize.define(
   "Bus",
   {
     id: {
@@ -67,3 +68,8 @@ module.exports = sequelize.define(
     modelName: "Bus",
   }
 );
+
+route.hasMany(bus, { foreignKey: "routeId" });
+bus.belongsTo(route, { foreignKey: "routeId" });
+
+module.exports = bus;

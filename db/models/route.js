@@ -74,7 +74,6 @@ module.exports = sequelize.define(
     },
   },
   {
-    paranoid: true,
     freezeTableName: true,
     modelName: "Route",
   }
