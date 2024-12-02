@@ -1,8 +1,9 @@
 const { DataTypes } = require("sequelize");
 const sequelize = require("../../config/database");
+const route = require("./route");
 
-module.exports = sequelize.define(
-  "Route",
+const bus = sequelize.define(
+  "Bus",
   {
     id: {
       allowNull: false,
@@ -10,58 +11,47 @@ module.exports = sequelize.define(
       primaryKey: true,
       type: DataTypes.INTEGER,
     },
-    origin: {
+    operatorName: {
       type: DataTypes.STRING,
       allowNull: false,
       validate: {
         notNull: {
-          msg: "origin cannot be null",
+          msg: "operator name cannot be null",
         },
         notEmpty: {
-          msg: "origin cannot be empty",
+          msg: "operator name cannot be empty",
         },
       },
     },
-    destination: {
+    capacity: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      validate: {
+        notNull: {
+          msg: "capacity cannot be null",
+        },
+        notEmpty: {
+          msg: "capacity cannot be empty",
+        },
+      },
+    },
+    licensePlate: {
       type: DataTypes.STRING,
       allowNull: false,
       validate: {
         notNull: {
-          msg: "destination cannot be null",
+          msg: "license plate cannot be null",
         },
         notEmpty: {
-          msg: "destination cannot be empty",
+          msg: "license plate cannot be empty",
         },
       },
     },
-    distance: {
+    routeId: {
       type: DataTypes.INTEGER,
-      allowNull: false,
-      validate: {
-        notNull: {
-          msg: "distance cannot be null",
-        },
-        notEmpty: {
-          msg: "distance cannot be empty",
-        },
-        isNumeric: {
-          msg: "distance must be in number",
-        },
-      },
-    },
-    duration: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-      validate: {
-        notNull: {
-          msg: "duration cannot be null",
-        },
-        notEmpty: {
-          msg: "duration cannot be empty",
-        },
-        isNumeric: {
-          msg: "duration must be in number",
-        },
+      references: {
+        model: "Route",
+        key: "id",
       },
     },
     createdAt: {
@@ -75,6 +65,11 @@ module.exports = sequelize.define(
   },
   {
     freezeTableName: true,
-    modelName: "Route",
+    modelName: "Bus",
   }
 );
+
+route.hasMany(bus, { foreignKey: "routeId" });
+bus.belongsTo(route, { foreignKey: "routeId" });
+
+module.exports = bus;

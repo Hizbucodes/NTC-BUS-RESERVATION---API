@@ -2,24 +2,31 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable("Route", {
+    await queryInterface.createTable("Bus", {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER,
       },
-      origin: {
+      operatorName: {
         type: Sequelize.STRING,
+        allowNull: false,
       },
-      destination: {
+      capacity: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+      },
+      licensePlate: {
         type: Sequelize.STRING,
+        allowNull: false,
       },
-      distance: {
+      routeId: {
         type: Sequelize.INTEGER,
-      },
-      duration: {
-        type: Sequelize.INTEGER,
+        references: {
+          model: "Route",
+          key: "id",
+        },
       },
       createdAt: {
         allowNull: false,
@@ -32,6 +39,6 @@ module.exports = {
     });
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable("Route");
+    await queryInterface.dropTable("Bus");
   },
 };

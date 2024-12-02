@@ -1,3 +1,4 @@
+const bus = require("../db/models/bus");
 const route = require("../db/models/route");
 const AppError = require("../utils/appError");
 const catchAsync = require("../utils/catchAsync");
@@ -19,7 +20,9 @@ const createRoute = catchAsync(async (req, res, next) => {
 });
 
 const getAllRoutes = catchAsync(async (req, res, next) => {
-  const result = await route.findAll();
+  const result = await route.findAll({
+    include: [{ model: bus }],
+  });
 
   if (!result || result.length === 0) {
     return res.status(200).json({
