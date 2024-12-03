@@ -5,7 +5,6 @@ const {
   updateTrip,
   deleteTrip,
 } = require("../controller/tripController");
-const { route } = require("./authRoute");
 
 const router = require("express").Router();
 
