@@ -105,4 +105,45 @@ const searchTrips = catchAsync(async (req, res, next) => {
   }
 });
 
-module.exports = { createTrip, searchTrips };
+const updateTrip = catchAsync(async (req, res, next) => {
+  const tripScheduledId = req.params.id;
+  const body = req.body;
+
+  const result = await trip.findByPk(tripScheduledId);
+
+  if (!result) {
+    return next(new AppError("Invalid trip id", 400));
+  }
+
+  result.busId = body.busId;
+  result.routeId = body.routeId;
+  result.tripDate = body.tripDate;
+  result.departureTime = body.departureTime;
+  result.arrivalTime = body.arrivalTime;
+
+  const updatedTrip = await result.save();
+
+  return res.status(200).json({
+    status: "success",
+    data: updatedTrip,
+  });
+});
+
+const deleteTrip = catchAsync(async (req, res, next) => {
+  const tripScheduledId = req.params.id;
+
+  const result = await trip.findByPk(tripScheduledId);
+
+  if (!result) {
+    return next(new AppError("Invalid trip id", 400));
+  }
+
+  await result.destroy();
+
+  return res.status(200).json({
+    status: "success",
+    message: "Trip Schedule deleted successfully",
+  });
+});
+
+module.exports = { createTrip, searchTrips, updateTrip, deleteTrip };
