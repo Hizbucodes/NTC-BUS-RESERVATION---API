@@ -1,3 +1,4 @@
+const { DataTypes } = require("sequelize");
 const sequelize = require("../../config/database");
 const bus = require("./bus");
 const route = require("./route");
