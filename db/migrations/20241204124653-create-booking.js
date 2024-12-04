@@ -25,18 +25,20 @@ module.exports = {
         allowNull: false,
       },
       bookingDate: {
+        allowNull: false,
         type: DataTypes.DATEONLY,
-        defaultValue: DataTypes.NOW,
       },
       userId: {
+        type: DataTypes.INTEGER,
         references: {
-          model: "user",
+          model: "User",
           key: "id",
         },
       },
       tripId: {
+        type: DataTypes.INTEGER,
         references: {
-          model: "trip",
+          model: "Trip",
           key: "id",
         },
       },

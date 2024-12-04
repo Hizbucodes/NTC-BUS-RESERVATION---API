@@ -1,6 +1,7 @@
 const sequelize = require("../../config/database");
 const User = require("../models/user");
 const Trip = require("../models/trip");
+const { DataTypes } = require("sequelize");
 
 const booking = sequelize.define(
   "Booking",
@@ -55,6 +56,7 @@ const booking = sequelize.define(
       },
     },
     bookingDate: {
+      allowNull: false,
       type: DataTypes.DATEONLY,
       defaultValue: DataTypes.NOW,
       validate: {
@@ -70,12 +72,14 @@ const booking = sequelize.define(
       },
     },
     userId: {
+      type: DataTypes.INTEGER,
       references: {
         model: "User",
         key: "id",
       },
     },
     tripId: {
+      type: DataTypes.INTEGER,
       references: {
         model: "Trip",
         key: "id",
