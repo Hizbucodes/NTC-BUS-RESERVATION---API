@@ -44,14 +44,8 @@ const booking = sequelize.define(
       type: DataTypes.DECIMAL(10, 2),
       allowNull: false,
       validate: {
-        notNull: {
-          msg: "total fare cannot be null",
-        },
-        notEmpty: {
-          msg: "total fare cannot be empty",
-        },
         isDecimal: {
-          msg: "total fare mus be in decimal format",
+          msg: "total fare must be in decimal format",
         },
       },
     },
