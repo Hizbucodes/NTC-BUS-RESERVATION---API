@@ -57,7 +57,6 @@ const searchTrips = catchAsync(async (req, res, next) => {
   try {
     const { origin, destination, tripDate } = req.query;
 
-    // Find routes matching origin and destination
     const routes = await route.findAll({
       where: {
         origin,
@@ -71,25 +70,23 @@ const searchTrips = catchAsync(async (req, res, next) => {
       });
     }
 
-    // Get all route IDs
     const routeIds = routes.map((route) => route.id);
 
-    // Find trips matching the route IDs and trip date
     const trips = await trip.findAll({
       where: {
         id: routeIds,
         tripDate,
-        status: "scheduled", // Only include scheduled trips
+        status: "scheduled",
       },
       include: [
         {
           model: bus,
           attributes: ["operatorName", "licensePlate", "capacity"],
-        }, // Include bus details
+        },
         {
           model: route,
           attributes: ["origin", "destination", "distance", "duration"],
-        }, // Include route details
+        },
       ],
     });
 
