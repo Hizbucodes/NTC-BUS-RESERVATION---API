@@ -83,4 +83,23 @@ const getAllBooking = catchAsync(async (req, res, next) => {
   });
 });
 
-module.exports = { createBooking, getAllBooking };
+const cancelBooking = catchAsync(async (req, res, next) => {
+  const { id } = req.params;
+
+  const existingBooking = await booking.findByPk(id);
+
+  if (!existingBooking) {
+    return next(new AppError("Booking not found", 404));
+  }
+
+  existingBooking.paymentStatus = "cancelled";
+
+  await existingBooking.save();
+
+  res.status(200).json({
+    status: "success",
+    message: "Booking cancelled successfully",
+  });
+});
+
+module.exports = { createBooking, getAllBooking, cancelBooking };
