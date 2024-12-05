@@ -1,6 +1,7 @@
 const booking = require("../db/models/booking");
 const route = require("../db/models/route");
 const trip = require("../db/models/trip");
+const user = require("../db/models/user");
 const AppError = require("../utils/appError");
 const catchAsync = require("../utils/catchAsync");
 
@@ -52,4 +53,34 @@ const createBooking = catchAsync(async (req, res, next) => {
   }
 });
 
-module.exports = { createBooking };
+const getAllBooking = catchAsync(async (req, res, next) => {
+  const result = await booking.findAll({
+    include: [
+      {
+        model: user,
+        attributes: ["firstName", "lastName", "email"],
+      },
+      {
+        model: trip,
+        attributes: ["departureTime", "arrivalTime", "tripDate"],
+        include: {
+          model: route,
+          attributes: ["origin", "destination", "distance"],
+        },
+      },
+    ],
+    order: [["createdAt", "DESC"]],
+  });
+
+  if (!result.length) {
+    return next(new AppError("No bookings found", 404));
+  }
+
+  res.status(200).json({
+    status: "success",
+    results: result.length,
+    data: result,
+  });
+});
+
+module.exports = { createBooking, getAllBooking };
