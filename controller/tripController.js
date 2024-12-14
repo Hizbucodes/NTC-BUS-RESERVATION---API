@@ -74,6 +74,10 @@ const searchTrips = catchAsync(async (req, res, next) => {
 
     const trips = await trip.findAll({
       where: {
+        routeId: routeIds,
+        tripDate: {
+          [Op.eq]: new Date(tripDate),
+        },
         id: routeIds,
         tripDate,
         status: "scheduled",
@@ -94,11 +98,13 @@ const searchTrips = catchAsync(async (req, res, next) => {
       return next(new AppError("No trips found for the specified date", 404));
     }
 
-    res.status(200).json(trips);
+    console.log("Trips Found", trips);
+    res.status(200).json({
+      status: "success",
+      result: trips,
+    });
   } catch (error) {
-    res
-      .status(500)
-      .json({ message: "Failed to search trips", error: error.message });
+    return next(new AppError("Failed to search trips", 500));
   }
 });
 

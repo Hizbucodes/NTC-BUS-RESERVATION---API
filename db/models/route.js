@@ -1,5 +1,6 @@
 const { DataTypes } = require("sequelize");
 const sequelize = require("../../config/database");
+const user = require("./user");
 
 module.exports = sequelize.define(
   "Route",
