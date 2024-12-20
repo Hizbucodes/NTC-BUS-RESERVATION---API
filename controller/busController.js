@@ -18,6 +18,7 @@ const createBus = catchAsync(async (req, res, next) => {
   const newBus = await bus.create({
     operatorName: body.operatorName,
     capacity: body.capacity,
+    busType: body.busType,
     licensePlate: body.licensePlate,
     routeId: body.routeId,
   });
@@ -53,7 +54,7 @@ const updateBus = catchAsync(async (req, res, next) => {
 
   result.operatorName = body.operatorName;
   result.capacity = body.capacity;
-  result.licensePlate = body.licensePlate;
+  (result.busType = body.busType), (result.licensePlate = body.licensePlate);
   result.routeId = body.routeId;
 
   const updatedBusResult = await result.save();

@@ -51,8 +51,8 @@ const trip = sequelize.define(
         },
       },
     },
-    status: {
-      type: DataTypes.ENUM("scheduled", "canceled"),
+    tripStatus: {
+      type: DataTypes.ENUM("scheduled", "cancelled"),
       allowNull: false,
       validate: {
         notNull: {

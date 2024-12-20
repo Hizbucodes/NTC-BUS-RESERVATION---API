@@ -3,7 +3,7 @@ const {
   createTrip,
   searchTrips,
   updateTrip,
-  deleteTrip,
+  cancelTrip,
 } = require("../controller/tripController");
 
 const router = require("express").Router();
@@ -19,7 +19,7 @@ router
   .patch(authentication, restrictTo("admin", "operator"), updateTrip);
 
 router
-  .route("/:id")
-  .delete(authentication, restrictTo("admin", "operator"), deleteTrip);
+  .route("/cancelTrip/:id")
+  .delete(authentication, restrictTo("admin", "operator"), cancelTrip);
 
 module.exports = router;
