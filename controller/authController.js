@@ -42,6 +42,7 @@ const signup = catchAsync(async (req, res, next) => {
     email: result.email,
     firstName: result.firstName,
     lastName: result.lastName,
+    role: result.role,
   });
 
   return res.status(201).json({
@@ -71,6 +72,7 @@ const signin = catchAsync(async (req, res, next) => {
     firstName: result.firstName,
     lastName: result.lastName,
     email: result.email,
+    role: result.role,
   });
 
   return res.status(200).json({
@@ -105,6 +107,39 @@ const authentication = catchAsync(async (req, res, next) => {
   return next();
 });
 
+const verifyToken = catchAsync(async (req, res, next) => {
+  let tokenIdentity = "";
+  if (
+    req.headers.authorization &&
+    req.headers.authorization.startsWith("Bearer")
+  ) {
+    tokenIdentity = req.headers.authorization.split(" ")[1];
+  }
+
+  if (!tokenIdentity) {
+    return next(new AppError("Please login to get access", 401));
+  }
+
+  const decoded = jwt.verify(tokenIdentity, process.env.JWT_SECRET_KEY);
+
+  const loggedInUser = await user.findByPk(decoded.id);
+
+  if (!loggedInUser) {
+    return next(new AppError("User not found", 404));
+  }
+
+  res.status(200).json({
+    status: "Success",
+    user: {
+      id: loggedInUser.id,
+      firstName: loggedInUser.firstName,
+      lastName: loggedInUser.lastName,
+      email: loggedInUser.email,
+      role: loggedInUser.role,
+    },
+  });
+});
+
 const restrictTo = (...userRole) => {
   const checkPermission = (req, res, next) => {
     if (!userRole.includes(req.user.role)) {
@@ -119,4 +154,4 @@ const restrictTo = (...userRole) => {
   return checkPermission;
 };
 
-module.exports = { signup, signin, authentication, restrictTo };
+module.exports = { signup, signin, authentication, restrictTo, verifyToken };

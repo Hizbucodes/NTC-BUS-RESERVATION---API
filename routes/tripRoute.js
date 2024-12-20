@@ -12,7 +12,7 @@ router
   .route("/")
   .post(authentication, restrictTo("admin", "operator"), createTrip);
 
-router.route("/search").get(authentication, searchTrips);
+router.route("/search").get(searchTrips);
 
 router
   .route("/:id")
