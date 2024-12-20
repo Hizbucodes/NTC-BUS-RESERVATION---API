@@ -78,8 +78,6 @@ const searchTrips = catchAsync(async (req, res, next) => {
         tripDate: {
           [Op.eq]: new Date(tripDate),
         },
-        id: routeIds,
-        tripDate,
         status: "scheduled",
       },
       include: [
@@ -98,7 +96,6 @@ const searchTrips = catchAsync(async (req, res, next) => {
       return next(new AppError("No trips found for the specified date", 404));
     }
 
-    console.log("Trips Found", trips);
     res.status(200).json({
       status: "success",
       result: trips,

@@ -8,10 +8,12 @@ const bookingRoute = require("./routes/bookingRoute");
 const catchAsync = require("./utils/catchAsync");
 const AppError = require("./utils/appError");
 const globalErrorHandler = require("./controller/errorController");
+const cors = require("cors");
 
 const app = express();
 
 app.use(express.json());
+app.use(cors());
 
 // All routes will be here
 app.use("/api/v1/auth", authRouter);
