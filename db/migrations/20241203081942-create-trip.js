@@ -24,8 +24,8 @@ module.exports = {
         type: DataTypes.DATE,
         allowNull: false,
       },
-      status: {
-        type: DataTypes.ENUM("scheduled", "canceled"),
+      tripStatus: {
+        type: DataTypes.ENUM("scheduled", "cancelled"),
         allowNull: false,
       },
       busId: {

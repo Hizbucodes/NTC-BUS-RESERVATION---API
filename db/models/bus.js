@@ -35,6 +35,39 @@ const bus = sequelize.define(
         },
       },
     },
+    busType: {
+      type: DataTypes.ENUM("Normal", "Semi-Luxury", "Luxury"),
+      allowNull: false,
+      validate: {
+        notNull: {
+          msg: "Bus type cannot be null",
+        },
+        notEmpty: {
+          msg: "Bus type cannot be empty",
+        },
+        isIn: {
+          args: [["Normal", "Semi-Luxury", "Luxury"]],
+          msg: "Bus type must be Normal or Semi-Luxury or Luxury",
+        },
+      },
+    },
+    totalSeats: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      validate: {
+        notNull: {
+          msg: "Total seats cannot be null",
+        },
+        notEmpty: {
+          msg: "Total seats cannot be empty",
+        },
+      },
+    },
+    amenities: {
+      type: DataTypes.ARRAY(DataTypes.STRING),
+      allowNull: true,
+    },
+
     licensePlate: {
       type: DataTypes.STRING,
       allowNull: false,
