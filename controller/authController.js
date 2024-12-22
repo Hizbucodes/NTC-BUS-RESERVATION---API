@@ -82,9 +82,9 @@ const signin = catchAsync(async (req, res, next) => {
 });
 
 const deleteUser = catchAsync(async (req, res, next) => {
-  const { id } = req.params;
+  const loggedInUser = req.user;
 
-  const userToDelete = await user.findByPk(id);
+  const userToDelete = await user.findByPk(loggedInUser.id);
 
   if (!userToDelete) {
     return next(new AppError("User not found", 404));
@@ -94,7 +94,7 @@ const deleteUser = catchAsync(async (req, res, next) => {
 
   res.status(200).json({
     status: "success",
-    message: "User deleted successfully",
+    message: "Your account has been deleted",
   });
 });
 
