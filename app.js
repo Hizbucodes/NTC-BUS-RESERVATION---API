@@ -5,6 +5,8 @@ const bus_route_Router = require("./routes/bus-routeRoute");
 const busRoute = require("./routes/busRoute");
 const tripRoute = require("./routes/tripRoute");
 const bookingRoute = require("./routes/bookingRoute");
+const seatRoute = require("./routes/seatRoute");
+
 const catchAsync = require("./utils/catchAsync");
 const AppError = require("./utils/appError");
 const globalErrorHandler = require("./controller/errorController");
@@ -21,6 +23,7 @@ app.use("/api/v1/route", bus_route_Router);
 app.use("/api/v1/buses", busRoute);
 app.use("/api/v1/trips", tripRoute);
 app.use("/api/v1/booking", bookingRoute);
+app.use("/api/v1/seat", seatRoute);
 
 app.use(
   "*",

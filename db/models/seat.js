@@ -1,5 +1,5 @@
 const { DataTypes } = require("sequelize");
-const sequelize = require("../db");
+const sequelize = require("../../config/database");
 const Bus = require("./bus");
 const Trip = require("./trip");
 
@@ -43,6 +43,7 @@ const Seat = sequelize.define(
     },
     seatStatus: {
       type: DataTypes.ENUM("Available", "Booked"),
+      allowNull: false,
       defaultValue: "Available",
       validate: {
         notNull: {
