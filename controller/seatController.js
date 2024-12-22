@@ -47,4 +47,23 @@ const createSeatsForBus = catchAsync(async (req, res, next) => {
   }
 });
 
-module.exports = { createSeatsForBus };
+const getSeatsByBus = catchAsync(async (req, res, next) => {
+  const { busId } = req.params;
+
+  const seats = await Seat.findAll({
+    where: { busId },
+    attributes: ["id", "seatNumber", "seatStatus"],
+  });
+
+  if (!seats.length) {
+    return next(new AppError("No seats found for this bus", 404));
+  }
+
+  res.status(200).json({
+    status: "success",
+    results: seats.length,
+    data: seats,
+  });
+});
+
+module.exports = { createSeatsForBus, getSeatsByBus };
