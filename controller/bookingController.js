@@ -29,7 +29,6 @@ const createBooking = catchAsync(async (req, res, next) => {
     }
     const routeInstance = await route.findByPk(tripResult.routeId);
     const distance = routeInstance.distance;
-    console.log("distance type: ", typeof distance);
     const farePerKm = 6.1;
     const total_fare = distance * farePerKm;
     console.log(total_fare);

@@ -66,6 +66,66 @@ const booking = sequelize.define(
         },
       },
     },
+    commuterName: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      validate: {
+        notNull: {
+          msg: "Commuter name cannot be null",
+        },
+        notEmpty: {
+          msg: "Commuter name cannot be empty",
+        },
+      },
+    },
+    commuterAddress: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      validate: {
+        notNull: {
+          msg: "Commuter address cannot be null",
+        },
+        notEmpty: {
+          msg: "Commuter address cannot be empty",
+        },
+      },
+    },
+    commuterNIC: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      validate: {
+        notNull: {
+          msg: "Commuter nic cannot be null",
+        },
+        notEmpty: {
+          msg: "Commuter nic cannot be empty",
+        },
+      },
+    },
+    commuterPhoneNumber: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      validate: {
+        notNull: {
+          msg: "Commuter phone number cannot be null",
+        },
+        notEmpty: {
+          msg: "Commuter phone number cannot be empty",
+        },
+      },
+    },
+    commuterEmail: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      validate: {
+        notNull: {
+          msg: "Commuter email cannot be null",
+        },
+        notEmpty: {
+          msg: "Commuter email cannot be empty",
+        },
+      },
+    },
     userId: {
       type: DataTypes.INTEGER,
       references: {
