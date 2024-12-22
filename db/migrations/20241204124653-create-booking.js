@@ -42,6 +42,14 @@ module.exports = {
           key: "id",
         },
       },
+      seatId: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        references: {
+          model: "Seat",
+          key: "id",
+        },
+      },
       createdAt: {
         allowNull: false,
         type: DataTypes.DATE,
