@@ -42,7 +42,7 @@ const Seat = sequelize.define(
       },
     },
     seatStatus: {
-      type: DataTypes.ENUM("Available", "Booked"),
+      type: DataTypes.ENUM("Available", "Processing", "Booked"),
       allowNull: false,
       defaultValue: "Available",
       validate: {
@@ -53,8 +53,8 @@ const Seat = sequelize.define(
           msg: "Seat status cannot be empty",
         },
         isIn: {
-          args: [["Available", "Booked"]],
-          msg: "Seat status must be Available or Booked",
+          args: [["Available", "Processing", "Booked"]],
+          msg: "Seat status must be Available or Processing or Booked",
         },
       },
     },
