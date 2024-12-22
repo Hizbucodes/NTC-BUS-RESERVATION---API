@@ -21,10 +21,7 @@ module.exports = {
         type: Sequelize.ENUM("Normal", "Semi-Luxury", "Luxury"),
         allowNull: false,
       },
-      totalSeats: {
-        type: Sequelize.INTEGER,
-        allowNull: false,
-      },
+
       amenities: {
         type: Sequelize.ARRAY(Sequelize.STRING),
         allowNull: true,
