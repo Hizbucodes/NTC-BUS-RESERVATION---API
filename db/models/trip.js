@@ -62,8 +62,8 @@ const trip = sequelize.define(
           msg: "status cannot be empty",
         },
         isIn: {
-          args: [["scheduled", "canceled"]],
-          msg: "status must be scheduled or canceled",
+          args: [["scheduled", "cancelled"]],
+          msg: "status must be scheduled or cancelled",
         },
       },
     },

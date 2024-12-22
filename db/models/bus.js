@@ -51,18 +51,7 @@ const bus = sequelize.define(
         },
       },
     },
-    totalSeats: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-      validate: {
-        notNull: {
-          msg: "Total seats cannot be null",
-        },
-        notEmpty: {
-          msg: "Total seats cannot be empty",
-        },
-      },
-    },
+
     amenities: {
       type: DataTypes.ARRAY(DataTypes.STRING),
       allowNull: true,

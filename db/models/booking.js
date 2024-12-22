@@ -1,6 +1,7 @@
 const sequelize = require("../../config/database");
 const User = require("../models/user");
 const Trip = require("../models/trip");
+const Seat = require("../models/seat");
 const { DataTypes } = require("sequelize");
 
 const booking = sequelize.define(
@@ -79,6 +80,13 @@ const booking = sequelize.define(
         key: "id",
       },
     },
+    seatId: {
+      type: DataTypes.INTEGER,
+      references: {
+        model: "Seat",
+        key: "id",
+      },
+    },
     createdAt: {
       allowNull: false,
       type: DataTypes.DATE,
@@ -99,5 +107,8 @@ booking.belongsTo(User, { foreignKey: "id" });
 
 Trip.hasMany(booking, { foreignKey: "id" });
 booking.belongsTo(Trip, { foreignKey: "id" });
+
+Seat.hasOne(booking, { foreignKey: "id" });
+booking.belongsTo(Seat, { foreignKey: "id" });
 
 module.exports = booking;

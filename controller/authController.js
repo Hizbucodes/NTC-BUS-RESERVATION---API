@@ -81,6 +81,23 @@ const signin = catchAsync(async (req, res, next) => {
   });
 });
 
+const deleteUser = catchAsync(async (req, res, next) => {
+  const loggedInUser = req.user;
+
+  const userToDelete = await user.findByPk(loggedInUser.id);
+
+  if (!userToDelete) {
+    return next(new AppError("User not found", 404));
+  }
+
+  await userToDelete.destroy();
+
+  res.status(200).json({
+    status: "success",
+    message: "Your account has been deleted",
+  });
+});
+
 const authentication = catchAsync(async (req, res, next) => {
   let idToken = "";
   if (
@@ -154,4 +171,11 @@ const restrictTo = (...userRole) => {
   return checkPermission;
 };
 
-module.exports = { signup, signin, authentication, restrictTo, verifyToken };
+module.exports = {
+  signup,
+  signin,
+  authentication,
+  restrictTo,
+  verifyToken,
+  deleteUser,
+};
