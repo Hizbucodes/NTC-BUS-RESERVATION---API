@@ -1,6 +1,6 @@
-const { DataTypes } = require("sequelize");
-const sequelize = require("../../config/database");
-const route = require("./route");
+import { DataTypes } from "sequelize";
+import sequelize from "../../config/database.js";
+import route from "./route.js";
 
 const bus = sequelize.define(
   "Bus",
@@ -75,6 +75,7 @@ const bus = sequelize.define(
         model: "Route",
         key: "id",
       },
+      onDelete: "CASCADE",
     },
     createdAt: {
       allowNull: false,
@@ -91,7 +92,7 @@ const bus = sequelize.define(
   }
 );
 
-route.hasMany(bus, { foreignKey: "routeId" });
-bus.belongsTo(route, { foreignKey: "routeId" });
+route.hasMany(bus, { foreignKey: "routeId", onDelete: "CASCADE" });
+bus.belongsTo(route, { foreignKey: "routeId", onDelete: "CASCADE" });
 
-module.exports = bus;
+export default bus;

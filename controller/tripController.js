@@ -1,14 +1,15 @@
-const { Op } = require("sequelize");
-const trip = require("../db/models/trip");
-const catchAsync = require("../utils/catchAsync");
-const moment = require("moment");
-const route = require("../db/models/route");
-const bus = require("../db/models/bus");
-const AppError = require("../utils/appError");
+import { Op } from "sequelize";
+import trip from "../db/models/trip.js";
+import moment from "moment";
+import route from "../db/models/route.js";
+import bus from "../db/models/bus.js";
+import catchAsync from "../utils/catchAsync.js";
+import AppError from "../utils/appError.js";
 
 const createTrip = catchAsync(async (req, res, next) => {
   try {
-    const { busId, routeId, tripDate, departureTime, arrivalTime } = req.body;
+    const { busId, routeId, tripDate, tripStatus, departureTime, arrivalTime } =
+      req.body;
 
     const formattedDepartureTime = moment(departureTime, "HH:mm").format(
       "HH:mm:ss"
@@ -38,6 +39,7 @@ const createTrip = catchAsync(async (req, res, next) => {
       busId,
       routeId,
       tripDate,
+      tripStatus,
       departureTime: formattedDepartureTime,
       arrivalTime: formattedArrivalTime,
       status: "scheduled",
@@ -78,7 +80,7 @@ const searchTrips = catchAsync(async (req, res, next) => {
         tripDate: {
           [Op.eq]: new Date(tripDate),
         },
-        status: "scheduled",
+        tripStatus: "scheduled",
       },
       include: [
         {
@@ -138,7 +140,7 @@ const cancelTrip = catchAsync(async (req, res, next) => {
     return next(new AppError("Invalid trip id", 400));
   }
 
-  result.status = "canceled";
+  result.tripStatus = "cancelled";
 
   await result.save();
 
@@ -148,4 +150,4 @@ const cancelTrip = catchAsync(async (req, res, next) => {
   });
 });
 
-module.exports = { createTrip, searchTrips, updateTrip, cancelTrip };
+export { createTrip, searchTrips, updateTrip, cancelTrip };

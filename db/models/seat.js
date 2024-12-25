@@ -1,7 +1,7 @@
-const { DataTypes } = require("sequelize");
-const sequelize = require("../../config/database");
-const Bus = require("./bus");
-const Trip = require("./trip");
+import { DataTypes } from "sequelize";
+import sequelize from "../../config/database.js";
+import Bus from "./bus.js";
+import Trip from "./trip.js";
 
 const Seat = sequelize.define(
   "Seat",
@@ -20,15 +20,6 @@ const Seat = sequelize.define(
       },
       onDelete: "CASCADE",
     },
-    tripId: {
-      type: DataTypes.INTEGER,
-      allowNull: true,
-      references: {
-        model: "Trip",
-        key: "id",
-      },
-      onDelete: "CASCADE",
-    },
     seatNumber: {
       type: DataTypes.STRING,
       allowNull: false,
@@ -40,6 +31,10 @@ const Seat = sequelize.define(
           msg: "Seat number cannot be empty",
         },
       },
+    },
+    processingExpiry: {
+      type: DataTypes.DATE,
+      allowNull: true,
     },
     seatStatus: {
       type: DataTypes.ENUM("Available", "Processing", "Booked"),
@@ -68,7 +63,4 @@ const Seat = sequelize.define(
 Bus.hasMany(Seat, { foreignKey: "busId", onDelete: "CASCADE" });
 Seat.belongsTo(Bus, { foreignKey: "busId" });
 
-Trip.hasMany(Seat, { foreignKey: "tripId", onDelete: "CASCADE" });
-Seat.belongsTo(Trip, { foreignKey: "tripId" });
-
-module.exports = Seat;
+export default Seat;

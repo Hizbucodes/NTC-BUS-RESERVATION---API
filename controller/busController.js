@@ -1,7 +1,7 @@
-const catchAsync = require("../utils/catchAsync");
-const bus = require("../db/models/bus");
-const route = require("../db/models/route");
-const AppError = require("../utils/appError");
+import bus from "../db/models/bus.js";
+import route from "../db/models/route.js";
+import catchAsync from "../utils/catchAsync.js";
+import AppError from "../utils/appError.js";
 
 const createBus = catchAsync(async (req, res, next) => {
   const body = req.body;
@@ -82,4 +82,4 @@ const deleteBus = catchAsync(async (req, res, next) => {
   });
 });
 
-module.exports = { createBus, getAllBuses, updateBus, deleteBus };
+export { createBus, getAllBuses, updateBus, deleteBus };
