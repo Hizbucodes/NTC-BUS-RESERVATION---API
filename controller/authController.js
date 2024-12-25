@@ -1,8 +1,8 @@
-const user = require("../db/models/user");
-const jwt = require("jsonwebtoken");
-const bcrypt = require("bcrypt");
-const catchAsync = require("../utils/catchAsync");
-const AppError = require("../utils/appError");
+import user from "../db/models/user.js";
+import jwt from "jsonwebtoken";
+import bcrypt from "bcrypt";
+import catchAsync from "../utils/catchAsync.js";
+import AppError from "../utils/appError.js";
 
 // function to generate the jsonwebtoken
 const generateToken = (payload) => {
@@ -171,11 +171,4 @@ const restrictTo = (...userRole) => {
   return checkPermission;
 };
 
-module.exports = {
-  signup,
-  signin,
-  authentication,
-  restrictTo,
-  verifyToken,
-  deleteUser,
-};
+export { signup, signin, authentication, restrictTo, verifyToken, deleteUser };

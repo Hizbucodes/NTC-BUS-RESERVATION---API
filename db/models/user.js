@@ -1,9 +1,10 @@
 "use strict";
-const { Model, Sequelize, DataTypes } = require("sequelize");
-const sequelize = require("../../config/database");
-const bcrypt = require("bcrypt");
-const AppError = require("../../utils/appError");
-module.exports = sequelize.define(
+import { DataTypes } from "sequelize";
+import sequelize from "../../config/database.js";
+import bcrypt from "bcrypt";
+import AppError from "../../utils/appError.js";
+
+const User = sequelize.define(
   "User",
   {
     id: {
@@ -107,3 +108,5 @@ module.exports = sequelize.define(
     modelName: "User",
   }
 );
+
+export default User;

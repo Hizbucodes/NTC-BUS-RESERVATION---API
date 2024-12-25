@@ -1,12 +1,13 @@
-const { authentication, restrictTo } = require("../controller/authController");
-const {
+import { authentication, restrictTo } from "../controller/authController.js";
+import {
   createTrip,
   searchTrips,
   updateTrip,
   cancelTrip,
-} = require("../controller/tripController");
+} from "../controller/tripController.js";
 
-const router = require("express").Router();
+import { Router } from "express";
+const router = Router();
 
 router
   .route("/")
@@ -22,4 +23,4 @@ router
   .route("/cancelTrip/:id")
   .delete(authentication, restrictTo("admin", "operator"), cancelTrip);
 
-module.exports = router;
+export default router;

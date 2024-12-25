@@ -32,7 +32,7 @@ module.exports = {
         allowNull: false,
       },
       seatStatus: {
-        type: Sequelize.ENUM("Available", "Booked"),
+        type: Sequelize.ENUM("Available", "Processing", "Booked"),
         defaultValue: "Available",
       },
       createdAt: {

@@ -1,7 +1,7 @@
-const catchAsync = require("../utils/catchAsync");
-const Bus = require("../db/models/bus");
-const Seat = require("../db/models/seat");
-const AppError = require("../utils/appError");
+import Bus from "../db/models/bus.js";
+import Seat from "../db/models/seat.js";
+import catchAsync from "../utils/catchAsync.js";
+import AppError from "../utils/appError.js";
 
 const createSeatsForBus = catchAsync(async (req, res, next) => {
   const { busId } = req.body;
@@ -28,7 +28,7 @@ const createSeatsForBus = catchAsync(async (req, res, next) => {
     const seats = Array.from({ length: bus.capacity }, (_, index) => ({
       busId,
       seatNumber: index + 1,
-      status: "available",
+      seatStatus: "Available",
     }));
 
     const createdSeats = await Seat.bulkCreate(seats);
@@ -66,4 +66,4 @@ const getSeatsByBus = catchAsync(async (req, res, next) => {
   });
 });
 
-module.exports = { createSeatsForBus, getSeatsByBus };
+export { createSeatsForBus, getSeatsByBus };

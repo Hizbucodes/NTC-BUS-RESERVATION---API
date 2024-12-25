@@ -1,16 +1,20 @@
-require("dotenv").config({ path: `${process.cwd()}/.env` });
-const express = require("express");
-const authRouter = require("./routes/authRoute");
-const bus_route_Router = require("./routes/bus-routeRoute");
-const busRoute = require("./routes/busRoute");
-const tripRoute = require("./routes/tripRoute");
-const bookingRoute = require("./routes/bookingRoute");
-const seatRoute = require("./routes/seatRoute");
+import dotenv from "dotenv";
+dotenv.config({ path: `${process.cwd()}/.env` });
 
-const catchAsync = require("./utils/catchAsync");
-const AppError = require("./utils/appError");
-const globalErrorHandler = require("./controller/errorController");
-const cors = require("cors");
+import express from "express";
+import authRouter from "./routes/authRoute.js";
+
+import bus_route_Router from "./routes/bus-routeRoute.js";
+import busRoute from "./routes/busRoute.js";
+
+import tripRoute from "./routes/tripRoute.js";
+import bookingRoute from "./routes/bookingRoute.js";
+import seatRoute from "./routes/seatRoute.js";
+
+import catchAsync from "./utils/catchAsync.js";
+import AppError from "./utils/appError.js";
+import globalErrorHandler from "./controller/errorController.js";
+import cors from "cors";
 
 const app = express();
 

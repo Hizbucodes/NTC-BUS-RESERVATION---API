@@ -1,12 +1,21 @@
-const router = require("express").Router();
-const { restrictTo, authentication } = require("../controller/authController");
-const {
-  createBooking,
+import { restrictTo, authentication } from "../controller/authController.js";
+import {
   getAllBooking,
   cancelBooking,
-} = require("../controller/bookingController");
+  reserveSeats,
+  completeBooking,
+} from "../controller/bookingController.js";
 
-router.route("/").post(authentication, restrictTo("commuter"), createBooking);
+import { Router } from "express";
+const router = Router();
+
+router
+  .route("/reserve")
+  .post(authentication, restrictTo("commuter"), reserveSeats);
+
+router
+  .route("/complete")
+  .post(authentication, restrictTo("commuter"), completeBooking);
 
 router
   .route("/getAllBooking")
@@ -16,4 +25,4 @@ router
   .route("/cancelBooking/:id")
   .delete(authentication, restrictTo("admin", "commuter"), cancelBooking);
 
-module.exports = router;
+export default router;

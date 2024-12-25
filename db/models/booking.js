@@ -1,8 +1,8 @@
-const sequelize = require("../../config/database");
-const User = require("../models/user");
-const Trip = require("../models/trip");
-const Seat = require("../models/seat");
-const { DataTypes } = require("sequelize");
+import sequelize from "../../config/database.js";
+import User from "../models/user.js";
+import Trip from "../models/trip.js";
+import Seat from "../models/seat.js";
+import { DataTypes } from "sequelize";
 
 const booking = sequelize.define(
   "Booking",
@@ -12,18 +12,6 @@ const booking = sequelize.define(
       autoIncrement: true,
       primaryKey: true,
       type: DataTypes.INTEGER,
-    },
-    seatNumber: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-      validate: {
-        notNull: {
-          msg: "seat number cannot be null",
-        },
-        notEmpty: {
-          msg: "seat number cannot be empty",
-        },
-      },
     },
     paymentStatus: {
       type: DataTypes.ENUM("paid", "pending", "cancelled"),
@@ -63,6 +51,69 @@ const booking = sequelize.define(
         },
         isDate: {
           msg: "booking date must be in date format",
+        },
+      },
+    },
+    commuterName: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      validate: {
+        notNull: {
+          msg: "Commuter name cannot be null",
+        },
+        notEmpty: {
+          msg: "Commuter name cannot be empty",
+        },
+      },
+    },
+    commuterAddress: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      validate: {
+        notNull: {
+          msg: "Commuter address cannot be null",
+        },
+        notEmpty: {
+          msg: "Commuter address cannot be empty",
+        },
+      },
+    },
+    commuterNIC: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      validate: {
+        notNull: {
+          msg: "Commuter nic cannot be null",
+        },
+        notEmpty: {
+          msg: "Commuter nic cannot be empty",
+        },
+      },
+    },
+    commuterPhoneNumber: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      validate: {
+        notNull: {
+          msg: "Commuter phone number cannot be null",
+        },
+        notEmpty: {
+          msg: "Commuter phone number cannot be empty",
+        },
+      },
+    },
+    commuterEmail: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      validate: {
+        notNull: {
+          msg: "Commuter email cannot be null",
+        },
+        notEmpty: {
+          msg: "Commuter email cannot be empty",
+        },
+        isEmail: {
+          msg: "Invalid email address",
         },
       },
     },
@@ -111,4 +162,4 @@ booking.belongsTo(Trip, { foreignKey: "id" });
 Seat.hasOne(booking, { foreignKey: "id" });
 booking.belongsTo(Seat, { foreignKey: "id" });
 
-module.exports = booking;
+export default booking;

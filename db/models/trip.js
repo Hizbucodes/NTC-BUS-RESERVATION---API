@@ -1,9 +1,9 @@
-const { DataTypes } = require("sequelize");
-const sequelize = require("../../config/database");
-const bus = require("./bus");
-const route = require("./route");
+import { DataTypes } from "sequelize";
+import sequelize from "../../config/database.js";
+import bus from "./bus.js";
+import route from "./route.js";
 
-const trip = sequelize.define(
+const Trip = sequelize.define(
   "Trip",
   {
     id: {
@@ -73,6 +73,7 @@ const trip = sequelize.define(
         model: "Bus",
         key: "id",
       },
+      onDelete: "CASCADE",
     },
     routeId: {
       type: DataTypes.INTEGER,
@@ -80,6 +81,7 @@ const trip = sequelize.define(
         model: "Route",
         key: "id",
       },
+      onDelete: "CASCADE",
     },
     createdAt: {
       allowNull: false,
@@ -96,10 +98,10 @@ const trip = sequelize.define(
   }
 );
 
-route.hasMany(trip, { foreignKey: "routeId" });
-trip.belongsTo(route, { foreignKey: "routeId" });
+route.hasMany(Trip, { foreignKey: "routeId" });
+Trip.belongsTo(route, { foreignKey: "routeId", onDelete: "CASCADE" });
 
-bus.hasMany(trip, { foreignKey: "busId" });
-trip.belongsTo(bus, { foreignKey: "busId" });
+bus.hasMany(Trip, { foreignKey: "busId", onDelete: "CASCADE" });
+Trip.belongsTo(bus, { foreignKey: "busId", onDelete: "CASCADE" });
 
-module.exports = trip;
+export default Trip;

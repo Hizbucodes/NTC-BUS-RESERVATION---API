@@ -1,10 +1,11 @@
-const { authentication, restrictTo } = require("../controller/authController");
-const {
+import { authentication, restrictTo } from "../controller/authController.js";
+import {
   createSeatsForBus,
   getSeatsByBus,
-} = require("../controller/seatController");
+} from "../controller/seatController.js";
 
-const router = require("express").Router();
+import { Router } from "express";
+const router = Router();
 
 router.route("/").post(authentication, restrictTo("admin"), createSeatsForBus);
 
@@ -12,4 +13,4 @@ router
   .route("/getSeats/:busId")
   .get(authentication, restrictTo("admin"), getSeatsByBus);
 
-module.exports = router;
+export default router;

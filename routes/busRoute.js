@@ -1,12 +1,13 @@
-const { restrictTo, authentication } = require("../controller/authController");
-const {
+import { restrictTo, authentication } from "../controller/authController.js";
+import {
   createBus,
   getAllBuses,
   updateBus,
   deleteBus,
-} = require("../controller/busController");
+} from "../controller/busController.js";
 
-const router = require("express").Router();
+import { Router } from "express";
+const router = Router();
 
 router
   .route("/")
@@ -20,4 +21,4 @@ router
   .route("/:id")
   .delete(authentication, restrictTo("admin", "operator"), deleteBus);
 
-module.exports = router;
+export default router;

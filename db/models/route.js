@@ -1,8 +1,7 @@
-const { DataTypes } = require("sequelize");
-const sequelize = require("../../config/database");
-const user = require("./user");
+import { DataTypes } from "sequelize";
+import sequelize from "../../config/database.js";
 
-module.exports = sequelize.define(
+const Route = sequelize.define(
   "Route",
   {
     id: {
@@ -79,3 +78,5 @@ module.exports = sequelize.define(
     modelName: "Route",
   }
 );
+
+export default Route;
