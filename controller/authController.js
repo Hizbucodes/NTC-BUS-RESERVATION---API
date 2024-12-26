@@ -3,6 +3,7 @@ import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
 import catchAsync from "../utils/catchAsync.js";
 import AppError from "../utils/appError.js";
+import { Op } from "sequelize";
 
 // function to generate the jsonwebtoken
 const generateToken = (payload) => {
@@ -171,4 +172,34 @@ const restrictTo = (...userRole) => {
   return checkPermission;
 };
 
-export { signup, signin, authentication, restrictTo, verifyToken, deleteUser };
+const getAllUsersWithOperatorRole = catchAsync(async (req, res, next) => {
+  const operators = await user.findAll({
+    where: {
+      role: "operator",
+    },
+    attributes: ["firstName", "lastName"],
+  });
+
+  if (!operators.length) {
+    return res.status(404).json({
+      status: "fail",
+      message: "No operators found",
+      operators: [],
+    });
+  }
+
+  return res.status(200).json({
+    status: "success",
+    operators,
+  });
+});
+
+export {
+  signup,
+  signin,
+  getAllUsersWithOperatorRole,
+  authentication,
+  restrictTo,
+  verifyToken,
+  deleteUser,
+};
