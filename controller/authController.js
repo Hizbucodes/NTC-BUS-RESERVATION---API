@@ -177,7 +177,7 @@ const getAllUsersWithOperatorRole = catchAsync(async (req, res, next) => {
     where: {
       role: "operator",
     },
-    attributes: ["firstName", "lastName"],
+    attributes: ["id", "firstName", "lastName"],
   });
 
   if (!operators.length) {
