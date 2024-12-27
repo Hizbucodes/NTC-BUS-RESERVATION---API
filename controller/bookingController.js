@@ -222,7 +222,10 @@ const getAllBooking = catchAsync(async (req, res, next) => {
     });
 
     if (!result.length) {
-      return next(new AppError("No bookings found", 404));
+      return res.status(200).json({
+        status: "success",
+        message: "No bookings have been made by commuters yet",
+      });
     }
 
     res.status(200).json({
