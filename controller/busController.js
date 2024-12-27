@@ -19,6 +19,7 @@ const createBus = catchAsync(async (req, res, next) => {
     operatorName: body.operatorName,
     capacity: body.capacity,
     busType: body.busType,
+    amenities: body.amenities,
     licensePlate: body.licensePlate,
     routeId: body.routeId,
   });
