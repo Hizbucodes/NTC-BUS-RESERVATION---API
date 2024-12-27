@@ -85,7 +85,7 @@ const searchTrips = catchAsync(async (req, res, next) => {
       include: [
         {
           model: bus,
-          attributes: ["operatorName", "licensePlate", "capacity"],
+          attributes: ["id", "operatorName", "licensePlate", "capacity"],
         },
         {
           model: route,
