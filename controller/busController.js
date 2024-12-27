@@ -37,9 +37,28 @@ const getAllBuses = catchAsync(async (req, res, next) => {
     return next(new AppError("No content were added", 204));
   }
 
+  const formattedResult = result.map((bus) => {
+    let amenities = [];
+
+    if (bus.amenities) {
+      amenities = bus.amenities.map((item) => {
+        try {
+          return JSON.parse(item);
+        } catch (e) {
+          return {};
+        }
+      });
+    }
+
+    return {
+      ...bus.toJSON(),
+      amenities: amenities.map((item) => item.name),
+    };
+  });
+
   return res.status(200).json({
     status: "success",
-    data: result,
+    data: formattedResult,
   });
 });
 
