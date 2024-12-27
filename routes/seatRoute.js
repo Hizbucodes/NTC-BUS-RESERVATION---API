@@ -9,8 +9,6 @@ const router = Router();
 
 router.route("/").post(authentication, restrictTo("admin"), createSeatsForBus);
 
-router
-  .route("/getSeats/:busId")
-  .get(authentication, restrictTo("admin"), getSeatsByBus);
+router.route("/getSeats/:busId").get(authentication, getSeatsByBus);
 
 export default router;
