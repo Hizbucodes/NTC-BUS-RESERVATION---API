@@ -217,6 +217,15 @@ const getAllBooking = catchAsync(async (req, res, next) => {
           model: user,
           attributes: ["firstName", "lastName", "email"],
         },
+        {
+          model: Trip,
+          include: [
+            {
+              model: Route,
+              attributes: ["origin", "destination"],
+            },
+          ],
+        },
       ],
       order: [["createdAt", "DESC"]],
     });
