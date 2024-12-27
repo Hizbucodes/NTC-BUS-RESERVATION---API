@@ -153,13 +153,13 @@ const booking = sequelize.define(
   }
 );
 
-User.hasMany(booking, { foreignKey: "id" });
-booking.belongsTo(User, { foreignKey: "id" });
+User.hasMany(booking, { foreignKey: "userId" });
+booking.belongsTo(User, { foreignKey: "userId" });
 
-Trip.hasMany(booking, { foreignKey: "id" });
-booking.belongsTo(Trip, { foreignKey: "id" });
+Trip.hasMany(booking, { foreignKey: "tripId" });
+booking.belongsTo(Trip, { foreignKey: "tripId" });
 
-Seat.hasOne(booking, { foreignKey: "id" });
-booking.belongsTo(Seat, { foreignKey: "id" });
+Seat.hasOne(booking, { foreignKey: "seatId" });
+booking.belongsTo(Seat, { foreignKey: "seatId" });
 
 export default booking;
