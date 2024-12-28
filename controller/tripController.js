@@ -85,7 +85,14 @@ const searchTrips = catchAsync(async (req, res, next) => {
       include: [
         {
           model: bus,
-          attributes: ["id", "operatorName", "licensePlate", "capacity"],
+          attributes: [
+            "id",
+            "operatorName",
+            "licensePlate",
+            "capacity",
+            "busType",
+            "amenities",
+          ],
         },
         {
           model: route,
@@ -98,9 +105,30 @@ const searchTrips = catchAsync(async (req, res, next) => {
       return next(new AppError("No trips found for the specified date", 404));
     }
 
+    const formattedTrips = trips.map((trip) => {
+      const formattedBus = {
+        ...trip.Bus.toJSON(),
+        amenities: (trip.Bus.amenities || [])
+          .map((item) => {
+            try {
+              const parsedItem = JSON.parse(item);
+              return parsedItem.name || null;
+            } catch (e) {
+              return null;
+            }
+          })
+          .filter(Boolean),
+      };
+
+      return {
+        ...trip.toJSON(),
+        Bus: formattedBus,
+      };
+    });
+
     res.status(200).json({
       status: "success",
-      result: trips,
+      result: formattedTrips,
     });
   } catch (error) {
     return next(new AppError("Failed to search trips", 500));
