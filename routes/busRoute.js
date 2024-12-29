@@ -10,20 +10,14 @@ import {
 import { Router } from "express";
 const router = Router();
 
-router
-  .route("/")
-  .post(authentication, restrictTo("admin", "operator"), createBus);
+router.route("/").post(authentication, restrictTo("admin"), createBus);
 
 router.route("/getAllBuses").get(authentication, getAllBuses);
-router
-  .route("/:id")
-  .patch(authentication, restrictTo("admin", "operator"), updateBus);
+router.route("/:id").patch(authentication, restrictTo("admin"), updateBus);
 
 router
   .route("/getBusById/:id")
   .get(authentication, restrictTo("admin", "operator"), getBusById);
-router
-  .route("/:id")
-  .delete(authentication, restrictTo("admin", "operator"), deleteBus);
+router.route("/:id").delete(authentication, restrictTo("admin"), deleteBus);
 
 export default router;
