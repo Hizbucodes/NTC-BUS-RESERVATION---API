@@ -85,6 +85,20 @@ const updateBus = catchAsync(async (req, res, next) => {
   });
 });
 
+const getBusById = catchAsync(async (req, res, next) => {
+  const busId = req.params.id;
+  const result = await bus.findByPk(busId);
+
+  if (!result) {
+    return next(new AppError("Invalid bus id", 400));
+  }
+
+  return res.status(200).json({
+    status: "success",
+    data: result,
+  });
+});
+
 const deleteBus = catchAsync(async (req, res, next) => {
   const busId = req.params.id;
 
@@ -102,4 +116,4 @@ const deleteBus = catchAsync(async (req, res, next) => {
   });
 });
 
-export { createBus, getAllBuses, updateBus, deleteBus };
+export { createBus, getAllBuses, updateBus, deleteBus, getBusById };
