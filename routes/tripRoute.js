@@ -4,6 +4,8 @@ import {
   searchTrips,
   updateTrip,
   cancelTrip,
+  getTripById,
+  getAllTrip,
 } from "../controller/tripController.js";
 
 import { Router } from "express";
@@ -18,6 +20,14 @@ router.route("/search").get(searchTrips);
 router
   .route("/:id")
   .patch(authentication, restrictTo("admin", "operator"), updateTrip);
+
+router
+  .route("/getTripById/:id")
+  .get(authentication, restrictTo("admin"), getTripById);
+
+router
+  .route("/getAllTrip")
+  .get(authentication, restrictTo("admin"), getAllTrip);
 
 router
   .route("/cancelTrip/:id")

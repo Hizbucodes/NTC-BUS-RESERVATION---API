@@ -55,6 +55,20 @@ const createTrip = catchAsync(async (req, res, next) => {
   }
 });
 
+const getTripById = catchAsync(async (req, res, next) => {
+  const tripId = req.params.id;
+  const result = await trip.findByPk(tripId);
+
+  if (!result) {
+    return next(new AppError("Invalid trip id", 400));
+  }
+
+  return res.status(200).json({
+    status: "success",
+    data: result,
+  });
+});
+
 const searchTrips = catchAsync(async (req, res, next) => {
   try {
     const { origin, destination, tripDate } = req.query;
@@ -135,6 +149,36 @@ const searchTrips = catchAsync(async (req, res, next) => {
   }
 });
 
+const getAllTrip = catchAsync(async (req, res, next) => {
+  try {
+    const result = await trip.findAll({
+      include: [
+        {
+          model: bus,
+        },
+        { model: route },
+      ],
+    });
+
+    if (!result.length) {
+      return res.status(200).json({
+        status: "success",
+        message: "No Trips Schedules Available",
+      });
+    }
+
+    res.status(200).json({
+      status: "success",
+      results: result.length,
+      data: result,
+    });
+  } catch (err) {
+    return next(
+      new AppError(`Error while getting trip schedules: ${err.message}`, 500)
+    );
+  }
+});
+
 const updateTrip = catchAsync(async (req, res, next) => {
   const tripScheduledId = req.params.id;
   const body = req.body;
@@ -150,6 +194,7 @@ const updateTrip = catchAsync(async (req, res, next) => {
   result.tripDate = body.tripDate;
   result.departureTime = body.departureTime;
   result.arrivalTime = body.arrivalTime;
+  result.tripStatus = body.tripStatus;
 
   const updatedTrip = await result.save();
 
@@ -178,4 +223,11 @@ const cancelTrip = catchAsync(async (req, res, next) => {
   });
 });
 
-export { createTrip, searchTrips, updateTrip, cancelTrip };
+export {
+  createTrip,
+  searchTrips,
+  updateTrip,
+  cancelTrip,
+  getTripById,
+  getAllTrip,
+};
