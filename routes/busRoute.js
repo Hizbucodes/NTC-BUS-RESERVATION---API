@@ -4,6 +4,7 @@ import {
   getAllBuses,
   updateBus,
   deleteBus,
+  getBusById,
 } from "../controller/busController.js";
 
 import { Router } from "express";
@@ -17,6 +18,10 @@ router.route("/getAllBuses").get(authentication, getAllBuses);
 router
   .route("/:id")
   .patch(authentication, restrictTo("admin", "operator"), updateBus);
+
+router
+  .route("/getBusById/:id")
+  .get(authentication, restrictTo("admin", "operator"), getBusById);
 router
   .route("/:id")
   .delete(authentication, restrictTo("admin", "operator"), deleteBus);
