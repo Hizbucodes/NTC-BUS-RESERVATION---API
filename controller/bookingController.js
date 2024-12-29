@@ -212,6 +212,9 @@ setInterval(cleanupExpiredReservations, 60 * 1000);
 const getAllBooking = catchAsync(async (req, res, next) => {
   try {
     const result = await booking.findAll({
+      where: {
+        paymentStatus: "paid",
+      },
       include: [
         {
           model: user,

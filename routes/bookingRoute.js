@@ -28,6 +28,6 @@ router
 
 router
   .route("/cancelBooking/:id")
-  .delete(authentication, restrictTo("admin", "commuter"), cancelBooking);
+  .patch(authentication, restrictTo("admin", "commuter"), cancelBooking);
 
 export default router;
