@@ -11,15 +11,11 @@ import {
 import { Router } from "express";
 const router = Router();
 
-router
-  .route("/")
-  .post(authentication, restrictTo("admin", "operator"), createTrip);
+router.route("/").post(authentication, restrictTo("admin"), createTrip);
 
 router.route("/search").get(searchTrips);
 
-router
-  .route("/:id")
-  .patch(authentication, restrictTo("admin", "operator"), updateTrip);
+router.route("/:id").patch(authentication, restrictTo("admin"), updateTrip);
 
 router
   .route("/getTripById/:id")
@@ -31,6 +27,6 @@ router
 
 router
   .route("/cancelTrip/:id")
-  .delete(authentication, restrictTo("admin", "operator"), cancelTrip);
+  .delete(authentication, restrictTo("admin"), cancelTrip);
 
 export default router;

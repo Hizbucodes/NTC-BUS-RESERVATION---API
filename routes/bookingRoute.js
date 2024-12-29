@@ -28,6 +28,6 @@ router
 
 router
   .route("/cancelBooking/:id")
-  .patch(authentication, restrictTo("admin", "commuter"), cancelBooking);
+  .patch(authentication, restrictTo("commuter"), cancelBooking);
 
 export default router;
