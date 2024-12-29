@@ -212,6 +212,9 @@ setInterval(cleanupExpiredReservations, 60 * 1000);
 const getAllBooking = catchAsync(async (req, res, next) => {
   try {
     const result = await booking.findAll({
+      where: {
+        paymentStatus: "paid",
+      },
       include: [
         {
           model: user,
@@ -291,4 +294,48 @@ const cancelBooking = catchAsync(async (req, res, next) => {
   }
 });
 
-export { reserveSeats, completeBooking, getAllBooking, cancelBooking };
+const resetSeatStatus = catchAsync(async (req, res, next) => {
+  const { seatIds } = req.body;
+
+  if (!Array.isArray(seatIds) || seatIds.length < 1) {
+    return next(new AppError("Please provide valid seat IDs", 400));
+  }
+
+  try {
+    const result = await Seat.update(
+      { seatStatus: "Available" },
+      {
+        where: {
+          id: seatIds,
+          seatStatus: "Processing",
+        },
+      }
+    );
+
+    if (result[0] === 0) {
+      return next(
+        new AppError(
+          "No seats found in 'Processing' status for the provided IDs",
+          404
+        )
+      );
+    }
+
+    res.status(200).json({
+      status: "success",
+      message: "Seat status reset to 'Available' successfully",
+    });
+  } catch (err) {
+    return next(
+      new AppError(`Failed to reset seat status: ${err.message}`, 500)
+    );
+  }
+});
+
+export {
+  reserveSeats,
+  completeBooking,
+  getAllBooking,
+  cancelBooking,
+  resetSeatStatus,
+};

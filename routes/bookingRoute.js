@@ -4,6 +4,7 @@ import {
   cancelBooking,
   reserveSeats,
   completeBooking,
+  resetSeatStatus,
 } from "../controller/bookingController.js";
 
 import { Router } from "express";
@@ -22,7 +23,11 @@ router
   .get(authentication, restrictTo("admin"), getAllBooking);
 
 router
+  .route("/reset")
+  .post(authentication, restrictTo("commuter"), resetSeatStatus);
+
+router
   .route("/cancelBooking/:id")
-  .delete(authentication, restrictTo("admin", "commuter"), cancelBooking);
+  .patch(authentication, restrictTo("admin", "commuter"), cancelBooking);
 
 export default router;
