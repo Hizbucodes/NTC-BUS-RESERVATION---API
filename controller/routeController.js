@@ -4,13 +4,43 @@ import catchAsync from "../utils/catchAsync.js";
 import AppError from "../utils/appError.js";
 
 const createRoute = catchAsync(async (req, res, next) => {
-  const body = req.body;
+  const { origin, destination, distance, duration } = req.body;
+
+  if (!origin || !destination || !distance || !duration) {
+    return next(
+      new AppError(
+        "Please provide all required fields: origin, destination, distance, duration",
+        400
+      )
+    );
+  }
+
+  if (origin === destination) {
+    return next(new AppError("Origin and destination cannot be the same", 400));
+  }
+
+  const existingRoute = await route.findOne({
+    where: {
+      origin: origin,
+      destination: destination,
+    },
+  });
+
+  if (existingRoute) {
+    return next(new AppError("Route already exists", 400));
+  }
+
+  if (distance <= 0 || duration <= 0) {
+    return next(
+      new AppError("Distance and duration must be positive numbers", 400)
+    );
+  }
 
   const newRoute = await route.create({
-    origin: body.origin,
-    destination: body.destination,
-    distance: body.distance,
-    duration: body.duration,
+    origin,
+    destination,
+    distance,
+    duration,
   });
 
   return res.status(201).json({
