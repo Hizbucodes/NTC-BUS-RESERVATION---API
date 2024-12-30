@@ -6,6 +6,7 @@ import user from "../db/models/user.js";
 import catchAsync from "../utils/catchAsync.js";
 import AppError from "../utils/appError.js";
 import { Op } from "sequelize";
+import bus from "../db/models/bus.js";
 
 const BOOKING_TIMEOUT = 10 * 60 * 1000;
 
@@ -252,6 +253,53 @@ const getAllBooking = catchAsync(async (req, res, next) => {
   }
 });
 
+const getAllBookingMadeByCommuter = catchAsync(async (req, res, next) => {
+  try {
+    const result = await booking.findAll({
+      where: {
+        paymentStatus: "paid",
+      },
+      include: [
+        {
+          model: user,
+          attributes: ["firstName", "lastName", "email"],
+        },
+        {
+          model: Trip,
+          include: [
+            {
+              model: bus,
+              attributes: ["id", "operatorName"],
+            },
+            {
+              model: Route,
+              attributes: ["origin", "destination"],
+            },
+          ],
+        },
+      ],
+      order: [["createdAt", "DESC"]],
+    });
+
+    if (!result.length) {
+      return res.status(200).json({
+        status: "success",
+        message: "No bookings have been made by commuters yet",
+      });
+    }
+
+    res.status(200).json({
+      status: "success",
+      results: result.length,
+      data: result,
+    });
+  } catch (err) {
+    return next(
+      new AppError(`Error while getting booking details: ${err.message}`, 500)
+    );
+  }
+});
+
 const cancelBooking = catchAsync(async (req, res, next) => {
   const { id } = req.params;
 
@@ -338,4 +386,5 @@ export {
   getAllBooking,
   cancelBooking,
   resetSeatStatus,
+  getAllBookingMadeByCommuter,
 };

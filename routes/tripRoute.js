@@ -6,6 +6,7 @@ import {
   cancelTrip,
   getTripById,
   getAllTrip,
+  getScheduledTrips,
 } from "../controller/tripController.js";
 
 import { Router } from "express";
@@ -24,6 +25,10 @@ router
 router
   .route("/getAllTrip")
   .get(authentication, restrictTo("admin"), getAllTrip);
+
+router
+  .route("/getAllScheduledTrip")
+  .get(authentication, restrictTo("operator"), getScheduledTrips);
 
 router
   .route("/cancelTrip/:id")
