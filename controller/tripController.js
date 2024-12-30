@@ -179,6 +179,44 @@ const getAllTrip = catchAsync(async (req, res, next) => {
   }
 });
 
+const getScheduledTrips = catchAsync(async (req, res, next) => {
+  try {
+    const result = await trip.findAll({
+      where: {
+        tripStatus: "scheduled",
+      },
+      include: [
+        {
+          model: route,
+          attributes: ["origin", "destination"],
+        },
+        {
+          model: bus,
+          attributes: ["operatorName"],
+        },
+      ],
+      order: [["createdAt", "DESC"]],
+    });
+
+    if (!result.length) {
+      return res.status(200).json({
+        status: "success",
+        message: "No scheduled trips found",
+      });
+    }
+
+    res.status(200).json({
+      status: "success",
+      results: result.length,
+      data: result,
+    });
+  } catch (err) {
+    return next(
+      new AppError(`Error while getting scheduled trips: ${err.message}`, 500)
+    );
+  }
+});
+
 const updateTrip = catchAsync(async (req, res, next) => {
   const tripScheduledId = req.params.id;
   const body = req.body;
@@ -230,4 +268,5 @@ export {
   cancelTrip,
   getTripById,
   getAllTrip,
+  getScheduledTrips,
 };

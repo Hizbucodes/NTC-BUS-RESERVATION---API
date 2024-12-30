@@ -5,6 +5,7 @@ import {
   reserveSeats,
   completeBooking,
   resetSeatStatus,
+  getAllBookingMadeByCommuter,
 } from "../controller/bookingController.js";
 
 import { Router } from "express";
@@ -21,6 +22,10 @@ router
 router
   .route("/getAllBooking")
   .get(authentication, restrictTo("admin"), getAllBooking);
+
+router
+  .route("/getAllBookingMadeByCommuter")
+  .get(authentication, restrictTo("operator"), getAllBookingMadeByCommuter);
 
 router
   .route("/reset")
